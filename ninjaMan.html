@@ -64,6 +64,7 @@
 
 </body>
 <script type="text/javascript">
+    
     var world =[
         [1,1,1,1,1],
         [1,0,2,2,1],
@@ -77,17 +78,30 @@
         [1,2,2,2,1],
         [1,1,1,1,1],
     ]; 
+    for(var i=0; i<world.length ;i++){
+            for(var j=0; j<world[i].length; j++){
+                if (i == 0 || j == 0 || i== world.length -1 || j== world[i].length -1){
+                    world[i][j] = 1;
+                }
+                else{
+                    world[i][j]= Math.floor(Math.random() * 4);
+                }
+                
+            }
+        }
+    var row= 12;
+    var colomn= 5;
+
     var worlsDict={
         0: 'blank',
         1: 'wall',
         2: 'sushi',
         3: 'onigiri'
-    };
+    };  
     var score=0;
-
+    
     function drawWorld(){
-        output="";
-            
+        output="";          
         for(var row=0; row<world.length; row++){
             output+= "<div class= 'row'>"
             for(var x=0;x<world[row].length; x++){
