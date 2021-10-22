@@ -10,6 +10,13 @@
     .row {
         line-height: 0;
     }
+    .score{
+        background-color: red;
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        
+    }
     .wall {
         background-color: blue;
         height: 40px;
@@ -67,9 +74,11 @@
         1: 'wall',
         2: 'sushi'
     };
+    var score=0;
 
     function drawWorld(){
         output="";
+            
         for(var row=0; row<world.length; row++){
             output+= "<div class= 'row'>"
             for(var x=0;x<world[row].length; x++){
@@ -78,6 +87,7 @@
             }
             output+="</div>"
         }
+        output+="<div class= 'score'>Score: "+score+"</div>"
         document.getElementById('world').innerHTML = output;
     }
     drawWorld();
@@ -96,29 +106,33 @@
     }
     drawNinjaman()
     document.onkeydown=function(e){
-        if(e.keyCode == 37){
+        if(e.keyCode == 37){  //LEFT
             if(world[ninjaman.y][ninjaman.x -1] !=1 ){
                 ninjaman.x--
             }
         }
-        if(e.keyCode == 39){
+        if(e.keyCode == 39){  //RIGHT
             if(world[ninjaman.y][ninjaman.x +1] != 1 ){
             ninjaman.x++
             }
         }
-        if(e.keyCode == 40){
+        if(e.keyCode == 40){ //DOWN
             if(world[ninjaman.y +1 ][ninjaman.x ] !=1 ){
             ninjaman.y++
             }
         }
-        if(e.keyCode == 38){
+        if(e.keyCode == 38){ //UP
             if(world[ninjaman.y -1][ninjaman.x ] !=1 ){
             ninjaman.y--
             }
         }
+        if(world[ninjaman.y][ninjaman.x]==2){
+            score++;
+        }
         world[ninjaman.y][ninjaman.x] =0;
         drawNinjaman();
         drawWorld();
+        
     }
 
 </script>
