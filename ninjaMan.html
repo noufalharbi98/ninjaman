@@ -87,10 +87,10 @@
     <div id="world"></div>
     <div id="ninjaman"></div>
     <div id= "bluey" class="ghosts"></div>
-    <div id="pinky" class="ghosts"></div>
+    <!--<div id="pinky" class="ghosts"></div>
     <div id="red" class="ghosts"></div>
     <div id="pumpky" class="ghosts"></div>
-    <div id="scaredy" class="ghosts"></div>
+    <div id="scaredy" class="ghosts"></div>-->
     
 </body>
 <script type="text/javascript">
@@ -127,6 +127,7 @@
         3: 'onigiri',
     }
     var score=0;
+    var lives=3;
 
     function drawWorld(){
         output="";          
@@ -139,6 +140,7 @@
             output+="</div>"
         }
         output+="<div class= 'score'>Score: "+score+"</div>"
+        output+="<div class= 'score'>Lives: "+lives+"</div>"
         document.getElementById('world').innerHTML = output;
     }
     drawWorld();
@@ -184,9 +186,14 @@
         else if(world[ninjaman.y][ninjaman.x]==3){
             score+=5;
         }
+        if(ninjaman.x == ghosts.x && ninjaman.y == ghosts.y){
+        lives--;
+        moveGhosts();
+        }
         world[ninjaman.y][ninjaman.x] =0;
         drawNinjaman();
-        drawWorld();       
+        drawWorld();
+              
     }
 
     var ghosts={
@@ -219,10 +226,10 @@
 
     }
     drawGhosts1();
-    drawGhosts2();
-    drawGhosts3();
-    drawGhosts4();
-    drawGhosts5();
+    //drawGhosts2();
+    //drawGhosts3();
+    //drawGhosts4();
+    //drawGhosts5();
 
 
     function moveGhosts(){
@@ -240,13 +247,23 @@
         else if( move == 3 && world[ghosts.y+1][ghosts.x] != 1){ //move down
             ghosts.y++;
         } 
-        
+        if(ninjaman.x == ghosts.x && ninjaman.y == ghosts.y){
+        lives--;
+        moveGhosts();
+        } 
     }
+    
+    if(lives == 0){
+      document.write("Game Over")
+      document.write("Your Score= "+score)
+      }
+
     //moveGhosts();
     function game() {
       drawNinjaman();
       drawGhosts1();
       moveGhosts();
+      /*
       drawGhosts2();
       moveGhosts();
       drawGhosts3();
@@ -254,19 +271,25 @@
       drawGhosts4();
       moveGhosts();
       drawGhosts5();
-      moveGhosts();
+      moveGhosts();*/
       drawGhosts1();
       moveGhosts();
-      drawGhosts2();
+      /*drawGhosts2();
       moveGhosts();
       drawGhosts3();
       moveGhosts();
       drawGhosts4();
       moveGhosts();
       drawGhosts5();
-      moveGhosts();
+      moveGhosts();*/
 
       setTimeout(game, 1000)
+      if(lives==0){
+          clearInterval;
+          document.write("Game Over<br>")
+          document.write("Your Score= "+score)
+
+      }
     }
     game()
    
