@@ -87,10 +87,10 @@
     <div id="world"></div>
     <div id="ninjaman"></div>
     <div id= "bluey" class="ghosts"></div>
-    <!--<div id="pinky" class="ghosts"></div>
+    <div id="pinky" class="ghosts"></div>
     <div id="red" class="ghosts"></div>
     <div id="pumpky" class="ghosts"></div>
-    <div id="scaredy" class="ghosts"></div>-->
+    <div id="scaredy" class="ghosts"></div>
     
 </body>
 <script type="text/javascript">
@@ -186,9 +186,11 @@
         else if(world[ninjaman.y][ninjaman.x]==3){
             score+=5;
         }
-        if(ninjaman.x == ghosts.x && ninjaman.y == ghosts.y){
-        lives--;
-        moveGhosts();
+        for(var i=0;i<ghosts.length;i++){
+            if(ninjaman.x == ghosts[i].x && ninjaman.y == ghosts[i].y){
+                lives--;
+                moveGhosts();
+            } 
         }
         world[ninjaman.y][ninjaman.x] =0;
         drawNinjaman();
@@ -196,102 +198,64 @@
               
     }
 
-    var ghosts={
-        x: Math.floor(Math.random() * 8 + 1) ,
-        y: Math.floor(Math.random() * 9 + 1)
-    };
+    var ghosts=[
+        {x: Math.floor(Math.random() * 8 + 1) ,y: Math.floor(Math.random() * 9 + 1)},
+        {x: Math.floor(Math.random() * 8 + 1) ,y: Math.floor(Math.random() * 9 + 1)},
+        {x: Math.floor(Math.random() * 8 + 1) ,y: Math.floor(Math.random() * 9 + 1)},
+        {x: Math.floor(Math.random() * 8 + 1) ,y: Math.floor(Math.random() * 9 + 1)},
+        {x: Math.floor(Math.random() * 8 + 1) ,y: Math.floor(Math.random() * 9 + 1)}
+    ]
+    var ghostsName={
+        0: 'bluey',
+        1: 'pinky',
+        2: 'pumpky',
+        3: 'red',
+        4: 'scaredy'
+    }
+
     function drawGhosts1(){
-        document.getElementById("bluey").style.top = ghosts.y*40+'px';
-        document.getElementById("bluey").style.left = ghosts.x*40+'px';
-
-    }
-    function drawGhosts2(){
-        document.getElementById("pinky").style.top = ghosts.y*40+'px';
-        document.getElementById("pinky").style.left = ghosts.x*40+'px';
-
-    }
-    function drawGhosts3(){
-        document.getElementById("pumpky").style.top = ghosts.y*40+'px';
-        document.getElementById("pumpky").style.left = ghosts.x*40+'px';
-
-    }
-    function drawGhosts4(){
-        document.getElementById("red").style.top = ghosts.y*40+'px';
-        document.getElementById("red").style.left = ghosts.x*40+'px';
-
-    }
-    function drawGhosts5(){
-        document.getElementById("scaredy").style.top = ghosts.y*40+'px';
-        document.getElementById("scaredy").style.left = ghosts.x*40+'px';
-
+        for(var i=0;i<ghosts.length;i++){
+            document.getElementById(ghostsName[i]).style.top = ghosts[i].y*40+'px';
+            document.getElementById(ghostsName[i]).style.left = ghosts[i].x*40+'px';            
+        }
     }
     drawGhosts1();
-    //drawGhosts2();
-    //drawGhosts3();
-    //drawGhosts4();
-    //drawGhosts5();
 
 
     function moveGhosts(){
-        var move= Math.floor(Math.random() * 4 )
-
-        if( move == 0 && world[ghosts.y][ghosts.x-1] != 1){ //move left
-            ghosts.x--;
+        for(var i=0; i<ghosts.length; i++){
+            var move= Math.floor(Math.random() * 4 )
+            if( move == 0 && world[ghosts[i].y][ghosts[i].x-1] != 1){ //move left
+                ghosts[i].x--;
+            }
+            else if( move == 1 && world[ghosts[i].y][ghosts[i].x+1] != 1){ //move right
+                ghosts[i].x++;
+            } 
+            else if( move == 2 && world[ghosts[i].y-1][ghosts[i].x] != 1){ //move up
+                ghosts[i].y--;
+            } 
+             else if( move == 3 && world[ghosts[i].y+1][ghosts[i].x] != 1){ //move down
+                ghosts[i].y++;
+            } 
+            if(ninjaman.x == ghosts[i].x && ninjaman.y == ghosts[i].y){
+                lives--;
+                moveGhosts();
+            } 
         }
-        else if( move == 1 && world[ghosts.y][ghosts.x+1] != 1){ //move right
-            ghosts.x++;
-        } 
-        else if( move == 2 && world[ghosts.y-1][ghosts.x] != 1){ //move up
-            ghosts.y--;
-        } 
-        else if( move == 3 && world[ghosts.y+1][ghosts.x] != 1){ //move down
-            ghosts.y++;
-        } 
-        if(ninjaman.x == ghosts.x && ninjaman.y == ghosts.y){
-        lives--;
-        moveGhosts();
-        } 
     }
-    
-    if(lives == 0){
-      document.write("Game Over")
-      document.write("Your Score= "+score)
-      }
 
-    //moveGhosts();
     function game() {
-      drawNinjaman();
-      drawGhosts1();
-      moveGhosts();
-      /*
-      drawGhosts2();
-      moveGhosts();
-      drawGhosts3();
-      moveGhosts();
-      drawGhosts4();
-      moveGhosts();
-      drawGhosts5();
-      moveGhosts();*/
-      drawGhosts1();
-      moveGhosts();
-      /*drawGhosts2();
-      moveGhosts();
-      drawGhosts3();
-      moveGhosts();
-      drawGhosts4();
-      moveGhosts();
-      drawGhosts5();
-      moveGhosts();*/
-
-      setTimeout(game, 1000)
-      if(lives==0){
-          clearInterval;
+        if(lives<=0){
           document.write("Game Over<br>")
-          document.write("Your Score= "+score)
+         document.write("Your Score= "+score)
+        }
+        drawNinjaman();
+        moveGhosts();
+        drawGhosts1();
 
-      }
+        setTimeout(game, 1000)
     }
-    game()
+    game();
    
 </script>
 </html>
